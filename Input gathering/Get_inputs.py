@@ -3,6 +3,29 @@ Interact with Gym environments using the keyboard
 An adapter object is defined for each environment to map keyboard commands to actions and extract observations as pixels.
 """
 
+"""
+The MIT License
+
+Copyright (c) 2017-2018 OpenAI (http://openai.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+"""
 import sys
 import ctypes
 import argparse
@@ -24,6 +47,7 @@ class Interactive(abc.ABC):
     Base class for making gym environments interactive for human use
     """
     def __init__(self, env, sync=True, tps=60, aspect_ratio=None):
+        #New code
         self.inputs = []
         self.states = []
         obs = env.reset()
@@ -123,7 +147,7 @@ class Interactive(abc.ABC):
             if not self._sync or act is not None:
                 obs, rew, done, _info = self._env.step(act)
 
-                #Start of new code
+                #New code
                 saved_inputs = np.array(act)
                 saved_inputs = saved_inputs.astype(int)
                 self.inputs.append(saved_inputs)
@@ -132,19 +156,9 @@ class Interactive(abc.ABC):
                 self.states.append(obs)
                 #np.save('data2.npy', dataset)
                 #state = np.reshape(state, (13, 13))
-                # with open('RAM.txt','a') as f:
-                #     f.write(''.join(str(i) for i in state))
-                #     f.write(",")
-                #     f.write(''.join(str(i) for i in saved_inputs))
-                #     f.write("\n")
-                #
-                # with open('IMG.txt','a') as f2:
-                #     f2.write(str(obs))
-                #     f2.write(",")
-                #     f2.write(str(saved_inputs))
-                #     f2.write("\n")
+            
 
-                #End of new code
+                
 
                 self._image = self.get_image(obs, self._env)
                 self._episode_returns += rew
@@ -189,8 +203,9 @@ class Interactive(abc.ABC):
         )
 
     def _on_close(self):
+        #New code
         dataset = np.array((self.states,self.inputs))
-       # np.save('ValidationData_IMG_1session.npy', dataset)
+        np.save('ValidationData_IMG_1session.npy', dataset)
         self._env.close()
         sys.exit(0)
 
