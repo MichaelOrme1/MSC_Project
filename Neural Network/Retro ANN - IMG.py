@@ -74,18 +74,12 @@ validation_dataset = tf.data.Dataset.from_tensor_slices((Xvalidation, yvalidatio
 
 
 
-##with open(file, 'r') as f:
-##    for line in f.readlines():
-##        
-##       X,y = line.split(",")
-##       state.append(X)
-##       inputs.append(y)
-##       
-       
 
        
 callback = tf.keras.callbacks.EarlyStopping(patience=10)#Stop if validation accuracy goes down, prevents overfitting
 
+
+#Model obtained from https://www.tensorflow.org/tutorials/images/cnn
 model = Sequential()
 model.add(Conv2D(16, (3, 3), activation='relu', input_shape=(84,84,1)))
 model.add(MaxPooling2D((2, 2)))

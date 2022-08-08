@@ -1,3 +1,5 @@
+#Author: Fabrício Olivetti de França
+
 import numpy as np
 from itertools import product
 
